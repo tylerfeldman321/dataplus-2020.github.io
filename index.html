@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Locating Energy Infrastructures with Deep Learning </title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="shortcut icon" type="image/png" href="img/icon.png" />
+
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet'
+    type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+  <!-- Custom styles for this template -->
+  <link href="css/agency.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top"></a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+        data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+        aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav text-uppercase my-auto text-center">
+          <li class="nav-item my-auto">
+            <a class="nav-link js-scroll-trigger" href="#overview">Project Overview</a>
+          </li>
+          <li class="nav-item my-auto">
+            <a class="nav-link js-scroll-trigger" href="#data">Data</a>
+          </li>
+          <li class="nav-item my-auto">
+            <a class="nav-link js-scroll-trigger" href="#synthetic-data">Creating Synthetic Data</a>
+          </li>
+          <li class="nav-item my-auto">
+            <a class="nav-link js-scroll-trigger" href="#experimentation-and-results">Experimentation and Results</a>
+          </li>
+          <li class="nav-item my-auto">
+            <a class="nav-link js-scroll-trigger" href="#conclusion">Conclusion</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header class="masthead">
+    <div class="container">
+      <div class="intro-text">
+        <div class="intro-lead-in">DataPlus 2020</div>
+        <div class="intro-heading text-uppercase">Deep Learning for Rare Energy Infrastructure in Satellite Imagery
+        </div>
+        <p class="text-white-75 font-weight-light mb-5" style="font-size: 30px">Tyler Feldman, Matt Robbins</p>
+        <a class="btn btn-primary btn-xl js-scroll-trigger" href="https://github.com/dataplus2020/">See Our
+          Github Repository</a>
+        <a class="btn btn-primary btn-alt js-scroll-trigger" href="https://figshare.com/articles/dataset/Real_Images_and_Labels_for_Wind_Turbine_Satellite_Imagery/12731000"> Check Out Our Dataset </a>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- Project Overview-->
+  <section class="page-section" id="overview">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Project Overview</h2>
+          <!-- <h3 class="section-subheading text-muted">&#8226 Previous Progress. &nbsp &#8226 Model Iterative Process.
+            &nbsp &#8226 Cross-Domain Performance. &nbsp &#8226 Geographies differences.</h3> -->
+
+          <hr class="divider light my-4" />
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-12">
+          <h3>Motivation</h3>
+          <p class="text-muted">Access to electricity is important for promoting economic development along with improving living conditions.
+            Around <a href="https://energyeducation.ca/encyclopedia/Access_to_electricity">1.2 billion people worldwide do not have electricity in their homes</a>, 
+            many of them located in Africa and Asia. Fixing this issue has a large potential to improve the quality of life for these people.
+            The first step in this process is to understand the existing energy infrastructure, which helps analyze the distribution of energy resources as well as the consumption of energy. Doing this by hand
+            is incredibly expensive and time-consuming, which is why we are trying to locate energy infrastructure by applying deep learning techniques to satellite imagery.
+
+          </p>
+          <!--Access to electricity is one of the most important requisites to economic and
+            societal development. It is associated with decreased maternal mortality, increased education levels,
+            and decreased poverty.
+            However, 1 billion people still lack access to electricity. To enable electrification and grid expansion
+            in energy-poor regions, it is crucial to know where the existing infrastructure is. This information can
+            help policymakers and businesses decide on whether to expand the national grid, build a microgrid, or
+            provide direct off-grid solar PV. Current approaches to identifying and mapping energy infrastructure
+            tend to be expensive and time-intensive, consisting of aggregating survey data from the ground level and
+            roughly scaling it across regions. This is where we want to help.
+            Our goal as a team is to be able to build a tool
+            that researchers can use to identify and map out worldwide energy
+            infrastructure to supplement ground truth information and allow energy developers and
+            policymakers to make informed decisions on grid expansion-->
+        </div>
+      </div>
+
+      <hr class="divider light my-4" />
+
+      <div class="row text-center">
+        <div class="col-md-12">
+          <h3 style="text-align: left;">Deep Learning and Object Detection</h3>
+          <p class="text-muted" style="text-align: justify;">Using deep learning, we can feed an image to a model, and the model will predict important information about the image. A common
+            technique for image analysis is classification, in which the model predicts the class of the image out of a list of possible classes.
+            In the image below, the model predicts that the image is of a cat, and is 90% confident with this classification. The model learns how to predict these classifications based
+            on examples that are shown to it. After it has been trained, it can make classifications for images that it has not seen before.<br>
+            <br>
+            For this project, we are focusing on detection, which is a combination of classification with localization. The model analyzes images and predicts bounding boxes that
+            surround each object. It then also gives a classification for each object and a confidence score for the prediction. In the image below, the model predicted that there was
+            an object in the box shown in red, and also predicted that the object within that box is a cat. The model learns how to predict these boxes and classifications based on examples shown to it.
+            These examples have labels called ground truths that contain the information of where the objects are in the image.
+          </p>
+        </div>
+        <div class="col-md-12">
+          <img src="img/overview/deep_learning.png" class="img-responsive" alt=""style="width:100%">
+        </div>
+      </div>
+
+      <hr class="divider light my-4" />
+			
+      <div class="row text-center">
+        <div class="col-md-6">
+          <h3 class="service-heading">Background</h3>
+          <p class="text-muted" style="text-align: justify;"> For four years, the Duke Energy Data Analytics Lab has
+          worked on developing deep learning models that identify energy infrastructure, with an end goal of
+          generating maps of power grid networks that can aid policymakers in implementing effective
+          electrification strategies. Researchers have already been able to create an object identification model
+          that can identify different types of energy infrastructure, as shown here: <a
+            href="https://bassconnections.duke.edu/project-teams/energy-data-analytics-lab-energy-infrastructure-map-world-through-satellite-data-2018">[2018-19
+            Bass Connections Team]</a></p>
+        </div>
+        <div class="col-md-6">
+                  <div class="col-md-12 my-auto"><img src="img/overview/energy_information.png" class="img-responsive" alt=""
+                  style="width:80%"></div>
+        </div>
+      </div>
+			  
+			<hr class="divider light my-4" />
+
+			<div class="row text-center">
+			  <div class="col-md-6">
+          <div class="col-md-12 my-auto"><img src="img/overview/wind.jpg" class="img-responsive" alt=""
+          style="width:80%"></div>
+        </div>
+			  <div class="col-md-6">
+          <h3 class="service-heading">Challenge</h3>
+          <p class="text-muted" style="text-align: justify;"> Object detection networks, like the one used to complete this task, are notorious for their "data hunger," requiring 
+            <strong>large amounts of annotated training data to perform well</strong>. 
+            For common infrastructures like powerlines and solar panels, there is ample real-world data available to train such models.
+          However, for rare objects like wind turbines, there is not enough available imagery to satisfy the "data hunger" of these
+				  models. Further, due to their low density, acquiring more data can be very expensive.</p>
+        </div>
+      </div>
+      <br>
+      <hr class="divider light my-4" />
+      
+      <!--
+      <div class="row justify-content-center">
+        <h2 class="section-heading text-uppercase">Our Goal</h2>
+      </div>
+      <div class="row">
+        <h4 class="text-muted">			
+				<p>Our goal is to create a <span class="text-danger">dataset of synthetic overhead imagery</span> that can <span style="color : #9b0ebe">fill existing gaps</span> in real-world datasets of rare energy infrastrucutre imagery to <span style="color : #1d5ed8">improve performance of image detection networks</span>.</p>
+			  </h4>
+      </div>-->
+      <div class="row">
+        <div class="col-md-12">
+          <h3>Solution: Synthetic Imagery</h3>
+          <p class="text-muted" style="text-align: justify;">
+            Since training data is difficult to collect, in this project we explore creating synthetic data.
+            We do this using CityEngine, which can render and generate 3D landscapes and structures
+            based on input from the designer. In our case, we are populating a landscape with wind turbine models.
+            Then we can position the camera in the overhead position and capture images. Since the engine has
+            the positioning of the wind turbine models, we can color in the models as black and infer the labels
+            from this black and white output.
+          </p>
+        </div>
+        <div class="col-md-12">
+          <img src="img/creating_synthetic_data/cityengine_workflow.png" class="img-responsive" alt=""style="width:100%">
+        </div>
+      </div>
+			  	  
+      <hr class="divider light my-4" />
+
+      <div class="row">
+        <div class="col-md-6 my-auto">
+          <h3 class="service-heading">Research Steps</h3>
+          <p class="text-muted" style="text-align: justify;">
+
+          </p>
+        </div>
+
+        <div class="col-md-12 my-auto">
+          <img src="img/overview/research_steps_colored.png" class="img-responsive" alt=""style="width:100%">
+        </div>
+      </div>
+
+      <!--
+      <div class="row">
+        <div class="col-md-12 my-auto">
+          <h3 class="service-heading">Research Steps</h3>
+          <p class="text-muted" style="text-align: justify;"><strong>Object detection</strong> is a deep
+            learning technique which aims to classify and locate target objects in images. For each object the
+            model detects, it will assign a probability to its predicted classification and propose a bounding box around the object in the image. 
+            To train this type of model, the model's predictions are compared to ground-truth labels, and the model is updated according to this error. 
+            In our project, we train a <strong>YOLOv3  image detection network</strong> to locate wind turbines in overhead satellite imagery. 
+            <a href="https://pjreddie.com/media/files/papers/YOLOv3.pdf">[J. Redmon, A, Farhadi YOLOv3: An Incremental Improvement.]</a>
+          </p>
+        </div>
+        <div class="col-md-12 my-auto">
+          <img src="img/overview/detection.png" class="img-responsive" alt=""style="width:100%">
+        </div>
+      </div>  -->
+
+		</div>
+	<section>
+			
+    <section class="page-section" id="data">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-12 text-center">
+            <h2 class="section-heading text-uppercase">Data</h2>
+            <!-- <h3 class="section-subheading text-muted">&#8226 Previous Progress. &nbsp &#8226 Model Iterative Process.
+              &nbsp &#8226 Cross-Domain Performance. &nbsp &#8226 Geographies differences.</h3> -->
+  
+      
+        <hr class="divider light my-4" />
+  
+            <div class="row">
+  
+              <div class="col-md-12 my-auto">
+  
+                <p class="text-muted" style="text-align: justify;">Our real-world satellite imagery comes from the NAIP Power Plant Satellite Imagery Dataset, a collection of 4,454 satellite images of power plants across the United States. Images of wind turbines predominantly come from California, the Midwest, and around northern Texas.
+                </p>
+         </div>
+        <div class="col-md-6 my-auto">
+                    <!-- <i class="fas fa-stack-2x text-primary"></i> -->
+                    <img src="img/data/data_map.png" class="img-responsive" alt="" style="width:100%">
+            <caption><i>Figure: Each red dot represents a single wind turbine image from the NAIP Dataset.</i></caption>
+                    <!-- <i class="fas fa-shopping-cart fa-stack-1x fa-inverse"></i> -->
+          </div>
+        <div class="col-md-6 my-auto">
+                    <!-- <i class="fas fa-stack-2x text-primary"></i> -->
+                    <img src="img/data/histogram.png" class="img-responsive" alt="" style="width:100%">
+            <caption><i>Note: Heights represent number of images, not number of wind turbines.</i></caption>
+                    <!-- <i class="fas fa-shopping-cart fa-stack-1x fa-inverse"></i> -->
+          </div>
+              </div>
+        
+        
+        <hr class="divider light my-4" />
+        
+        <div class="row">
+              <div class="col-md-8 my-auto">
+                <h3 class="service-heading">Diversity Between States</h3>
+                <img src="img/data/4_pics.PNG" class="img-responsive" alt="" style="width:100%">
+                <caption><i>Figure: Images are taken from NAIP Power Plant Satellite Imagery Dataset.</i></caption>
+              </div>
+              <div class="col-md-4 my-auto">
+                <p class="text-muted" style="text-align: justify;"> From these images, we can notice significant
+            variability in features like land types and even wind turbine shapes between different states. For example, imagery
+            from California is almost exclusively in desert regions. California is also one of the only states to have small,
+            densely-clustered wind turbines. On the other end of the spectrum, states like Maine have mostly large wind
+            turbines in regions with lots of vegetation. Images from the same state tend to be relatively self-similar.
+            <br><br>
+            By including variation in features like geography, wind turbine size, and shadow size in the training dataset,
+            the model can generalize more broadly. However, it can be very difficult for the model to learn these novel
+            features if they are absent from training.
+          </p>
+              </div>
+            </div>
+  
+        
+            <hr class="divider light my-4" />
+        
+        <div class="row text-center">
+        <div class="col-md-6">
+          <h4 class="service-heading">Annotating</h4>
+            <p class="text-muted" style="text-align: left;">Ground truth labels were created using the image labeling GUI <strong>pyimannotate</strong>. Bounding boxes were hand-drawn around the wind turbines in each image, and the labels
+            were stored in .txt files to be accessed during training and testing.</p>
+                  
+            <!-- <i class="fas fa-stack-2x text-primary"></i> -->
+                    <img src="img/data/labeling.png" class="img-responsive" alt="" style="width:90%">
+                    <!-- <i class="fas fa-shopping-cart fa-stack-1x fa-inverse"></i> -->
+          
+                </div>
+        <div class="col-md-6">
+          <h4 class="service-heading">Preprocessing</h4>
+                  <p class="text-muted" style="text-align: left;">The size of the raw satellite images was very large and slowed training speeds. To increase efficiency, we divided the 1114x1114 pixel images into four 608x608 pixel patches that could then be fed into the model. Ground-truth labels were then adjusted to account for resizing.</p>
+                  
+                    <!-- <i class="fas fa-stack-2x text-primary"></i> -->
+                    <img src="img/data/preprocessing.png" class="img-responsive" alt="" style="width:90%">
+                    <!-- <i class="fas fa-shopping-cart fa-stack-1x fa-inverse"></i> -->
+                  
+                  
+                </div>
+        </div>
+        
+        
+        </div>
+      </div>
+    </div>
+    </section>
+
+  <!-- Creating Synthetic Data-->
+  <section class="page-section" id="synthetic-data">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Creating Synthetic Data</h2>
+          <!-- <h3 class="section-subheading text-muted">&#8226 Previous Progress. &nbsp &#8226 Model Iterative Process.
+            &nbsp &#8226 Cross-Domain Performance. &nbsp &#8226 Geographies differences.</h3> -->
+
+          <hr class="divider light my-4" />
+
+          <div class="row">
+
+            <div class="col-md-6 my-auto">
+              <h3 class="service-heading">CityEngine</h3>
+              <p class="text-muted" style="text-align: left;">To create the synthetic data we used the program 
+                CityEngine, which can be used to generate landscapes and structures in a 3D environment. One reason 
+                why we picked CityEngine is that it uses a hyper-realistic graphics engine called the Unreal Engine.
+                The program also allows the integration of python scripts along with the ability to take and save images with 
+                cameras, which is useful for automating the collection of our synthetic data.
+                </p>
+            </div>
+            <div class="col-md-6 my-auto">
+              <img src="img/creating_synthetic_data/city_engine.jpg" class="img-responsive" alt="" style="width:100%">
+              <caption><i>Figure: CityEngine User Interface with a generated city landscape</i></caption>
+            </div>
+          </div>
+
+          <hr class="divider light my-4" />
+
+          <div class="row">
+            <div class="col-md-12 my-auto">
+              <h3 class="service-heading">Workflow</h3>
+              <p class="text-muted" style="text-align: left;">To create the synthetic imagery, we first compiled
+              a list of images we want to use as the background on which to generate wind turbines. We also collected 3D wind turbine
+              models from online that we would like to use for the synthetic data. </p>
+
+              <p class="text-muted" style="text-align: left;">We then used a python script and CityEngine files to randomly select the images and generate the 3D wind turbine models on top of the images. 
+              The script then moves the camera to the four quadrants of the images, and in each location, it captures and saves a photo. This process is then repeated
+              with the wind turbine models colored in as black and the background colored as white. These black and white images tell us where the models are placed 
+              and can be used to create ground truths.</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 my-auto">
+              <img src="img/creating_synthetic_data/synthetic_imagery_creation.png" class="img-responsive" alt="" style="width:100%" height="100%">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 my-auto">
+              <img src="img/creating_synthetic_data/creating_annos.png" class="img-responsive" alt="" style="width:100%" height="100%">
+              <caption><i>Figure: Flowchart of CityEngine Workflow</i></caption>
+            </div>
+          </div>
+
+          <br>
+
+          <div class="row">
+            <div class="col-md-6 my-auto">
+              <p class="text-muted" style="text-align: justify;">After this process, we have a set of synthetic images, and for each of these images, 
+                we have a corresponding image that locates the position of the wind turbine models.</p>
+            </div>
+            <div class="col-md-6 my-auto">
+              <img src="img/creating_synthetic_data/comparing_rgb_with_annos.png" class="img-responsive" alt="" style="width:100%">
+              <caption><i>Figure: Side-by-side of an RBG image with its corresponding annotation.</i></caption>
+            </div>
+          </div>
+
+          <hr class="divider light my-4" />
+
+          <div class="row">
+            <div class="col-md-6 my-auto">
+              <img src="img/creating_synthetic_data/bbox.png" class="img-responsive" alt="" style="width:100%">
+              <caption><i>Figure: Creating bounding boxes from annotations</i></caption>
+            </div>
+            <div class="col-md-6 my-auto">
+              <h3 class="service-heading">Creating Labels</h3>
+              <p class="text-muted" style="text-align: justify;">The last step is to then use the black and white annotations to create ground truth labels. 
+                This is done by finding groups of black pixels and then finding and recording the dimensions and positions of these pixel groupings. This can be visualized as
+                drawing boxes around each of these models. This is done for each image, giving us a label corresponding with each image, where the label contains the information
+                about every model within that image.</p>
+            </div>
+            
+          </div>
+
+
+        </div>
+      </div>
+  </section>
+
+  <!-- Experimentation and Results-->
+  <section class="page-section" id="experimentation-and-results">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Experimentation and Results</h2>
+          <!-- <h3 class="section-subheading text-muted">&#8226 Previous Progress. &nbsp &#8226 Model Iterative Process.
+            &nbsp &#8226 Cross-Domain Performance. &nbsp &#8226 Geographies differences.</h3> -->
+
+          <hr class="divider light my-4" />
+
+          <div class="row">
+
+            <div class="col-md-12 my-auto">
+              <h2 style="text-align: left;">Basic Experimental Setup</h2>
+              <p class="text-muted" style="text-align: justify;">
+                Once we have our synthetic data ready and our real imagery preprocessed, we are ready to run experiments. 
+                These experiments involve altering the training dataset to see how the performance of the model changes.
+                The basic experimental setup for this project is noting the change in performance between using a training dataset
+                of real satellite imagery and then using the same dataset but supplementing it with synthetic images. This will
+                produce two different models and their performances are measured on the same testing set. With this setup, we are only changing
+                one variable and so we can attribute any differences in performance to the added synthetic data.
+
+              </p>
+            </div>
+
+            <div class="col-md-1 my-auto"></div>
+            <div class="col-md-10 my-auto">
+              <img src="img/experimentation_and_results/experimental_setup.png" class="img-responsive" alt="" style="width:100%">
+              <caption><i>Figure: Our basic experimental setup. The real images were split randomly between the training
+                and testing datasets. We added additional photos that did not contain wind turbines to the testing dataset
+                to make the testing dataset more representative of random satellite imagery.
+              </i></caption>
+            </div>
+            <div class="col-md-1 my-auto"></div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-6 my-auto">
+              <br>
+              <img src="img/experimentation_and_results/metrics.png" class="img-responsive" alt="" style="width:100%">
+              <br>
+              <caption><i>Figure: The model predicted that 4 locations were wind turbines,
+                and 2 of those predictions were correct, meaning the precision would be 2/4. There are 3 wind turbines in the image
+                and the model found 2 of these, meaning the recall would be 2/3.</i></caption>
+            </div>
+            <div class = "col-md-6">
+              <h3>Performance Metrics</h3>
+              <p class="text-muted" style="text-align: justify;">To understand our results, it's important
+              that we first understand the metrics that we have chosen to measure performance. The primary metrics we look at are
+              precision and recall. We'll explain how these metrics can be interpreted in terms of the images on the left.</p>
+              <ul>
+                <li class="text-muted" style="text-align: justify;"><b>Precision: </b> Out of the objects that the model classified as a wind turbine,
+                what fraction of these were wind turbines.</li>
+                <li class="text-muted" style="text-align: justify;"><b>Recall: </b> Out of the number of wind turbines, what fraction of these 
+                did the model find.</li>
+              </ul>
+              <p class="text-muted" style="text-align: justify;">Since the goal of this model is to detect objects in very large sets of satellite imagery, 
+                manually removing objects misclassified as wind turbines is much easier than identifying undetected wind turbines across the entire dataset. 
+                This is why we prioritize recall over precision as a metric of good performance.
+              </p>
+            </div>   
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-6">
+              <h3>Results</h3>
+              <p class="text-muted" style="text-align: justify;">Adding synthetic data to our training set significantly improved the precision of our
+                model. However, the recall does not change significantly. Our hypothesis for this is that the model was doing well on large wind turbines
+                while missing many of the small wind turbines. This prompted us to create synthetic data that contained small wind turbines to try to 
+                fix this issue.
+              </p>
+            </div>
+            <div class="col-md-6">
+              <img src="img/experimentation_and_results/results.png" class="img-responsive" alt="" style="width:100%">
+            </div>
+          </div>
+          <br>
+          <hr class="divider light my-4" />
+          <h2 style="text-align: left;">Additional Experiments</h2>
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <p class="text-muted" style="text-align: justify;">In addition to this basic test, we also conducted additional experiments by changing
+              how the dataset was split between the training and testing. One experiment that we explored was excluding a region from the testing set.
+              We wanted to choose a region that would be the most difficult for the model to perform on, which we can infer by how different that region is from
+              the rest of the dataset. We chose to exclude California and Arizona from the testing set because the geography is both self-similar and fairly different
+              from the other regions and also because the small wind turbines in California would be very difficult for the model to test on.
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 my-auto">
+              <img src="img/experimentation_and_results/excluding_CA_AZ.png" class="img-responsive" alt="">
+              <hr class="divider light my-4"/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 my-auto">
+              <p class="text-muted" style="text-align: justify;">After testing the model with this setup, we then were able to add synthetic data to see if the performance
+              improves. We specifically created synthetic data that mimicked the real satellite imagery in California and Arizona. We then added these to the training dataset
+              and observed how the performance changed.</p>
+            </div>
+            <div class="col-md-6 my-auto">
+              <figure>
+                <img src="img/experimentation_and_results/syn_CA_AZ.png" class="img-fluid">
+                <figcaption><i>Figure: Examples of synthetic data created to mimic CA and AZ</i></figcaption>
+              </figure>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 my-auto">
+
+            </div>
+            <div class="col-md-6 my-auto">
+              <h2>Results</h2>
+              <p class="text-muted" style="text-align: justify;">After adding the synthetic data to the training set, TO BE UPDATED WITH MORE RESULTS</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+
+  <!-- CONCLUSION-->
+  <section class="page-section" id="conclusion">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">CONCLUSION</h2>
+          <!-- <h3 class="section-subheading text-muted">&#8226 Previous Progress. &nbsp &#8226 Model Iterative Process.
+            &nbsp &#8226 Cross-Domain Performance. &nbsp &#8226 Geographies differences.</h3> -->
+          <hr class="divider light my-4" />
+          <div class="row">
+            <div class="col-md-1 my-auto"></div>
+            <div class="col-md-10 my-auto">
+              <p style="text-align: justify;">The goal of this project was to create synthetic data that could be added to our training set to improve performance.
+              This goal was met, but we think that with the fine-tuning of our synthetic data, we should be able to increase the performance more, especially in
+              terms of the recall. TO BE UPDATED WITH MORE RESULTS</p>
+            </div>
+            <div class="col-md-1 my-auto"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FUTURE WORK-->
+  <section class="page-section" id="next-steps">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Future Work</h2>
+          <hr class="divider light my-4" />
+          <div class="row">
+            <div class="col-md-12 my-auto">
+              <ol style="text-align: justify;">
+                <li>Develop a <strong>larger variety of synthetic images</strong> for training. This includes varying the lighting of the CityEngine scenes along with including different variations of models.
+                  We would like to include a wire structured wind turbine in the synthetic data to improve performance on those types of turbines
+                </li><br>
+                <li>Improve the <strong>quality of our synthetic images</strong>. This would involve purchasing high-quality models from online or designing models ourselves to emulate the 
+                  real wind turbines that we observe in the satellite imagery
+                </a></li><br>
+                <li><strong>Apply this model on a large scale</strong>. We would train the model and then apply it to Google Earth Engine imagery for the United States to locate wind turbines throughout the U.S.</li><br>
+                <li>Apply these techniques to <strong>detect other types of energy infrastructure</strong>. This will likely include coal plants and transmission lines</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="bg-light page-section" id="team">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Team</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="team-member">
+            <img class="mx-auto rounded-circle" src="img/team/tyler.jpg" alt="">
+            <h4>Tyler Feldman</h4>
+            <p class="text-muted">Class of 2023</p>
+            <p class="text-muted">Electrical and Computer Engineering, Computer Science</p>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="team-member">
+            <img class="mx-auto rounded-circle" src="img/team/matt.jpg" alt="">
+            <h4>Matt Robbins</h4>
+            <p class="text-muted">Class of 2023</p>
+            <p class="text-muted">Computer Science, Mathematics</p>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row justify-content-center">   
+        <div class="col-md-4">
+          <h4 class="service-heading"><u>Team Leaders:</u></h4>
+          <p class="text-muted">Dr. Kyle Bradbury</p>
+          <p class="text-muted">Dr. Jordan Malof</p>
+        </div>
+        <div class="col-md-4">
+          <h4 class = "service-heading"><u>Project Manager:</u></h4>
+            <p class="text-muted">Bohao Huang</p>
+        </div>
+        <div class="col-md-4">
+          <h4 class = "service-heading"><u>Team Contributors:</u></h4>
+            <p class="text-muted align-items-center">Leslie Collins</p>
+            <p class="text-muted">Robert Fetter</p>
+            <p class="text-muted">Marc Jeuland</p>
+            <p class="text-muted">Luana Marangon Lima</p>
+            <p class="text-muted">Robyn Meeks</p>
+        </div>
+      <!-- <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+          <p class="large text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
+        </div>
+      </div> -->
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <span class="copyright"></span>
+        </div>
+        <div class="col-md-6">
+          <ul class="list-inline social-buttons">
+            <li class="list-inline-item">
+              <a href="https://github.com/Bass-Connections-2019">
+                <i class="fab fa-github"></i>
+              </a>
+            </li>
+            <!-- <li class="list-inline-item">
+              <a href="#">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+            </li> -->
+            <li class="list-inline-item">
+              <a href="https://www.instagram.com/dukebassconnections/">
+                <i class="fab fa-instagram"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <!-- <div class="col-md-4">
+          <ul class="list-inline quicklinks">
+            <li class="list-inline-item">
+              <a href="#">Privacy Policy</a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">Terms of Use</a>
+            </li>
+          </ul>
+        </div> -->
+      </div>
+    </div>
+  </footer>
+
+  <!-- Portfolio Modals -->
+
+  <!-- Modal 1 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">Project Name</h2>
+                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/01-full.jpg" alt="">
+                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est
+                  blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia
+                  expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                <ul class="list-inline">
+                  <li>Date: January 2017</li>
+                  <li>Client: Threads</li>
+                  <li>Category: Illustration</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">Project Name</h2>
+                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/02-full.jpg" alt="">
+                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est
+                  blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia
+                  expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                <ul class="list-inline">
+                  <li>Date: January 2017</li>
+                  <li>Client: Explore</li>
+                  <li>Category: Graphic Design</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">Project Name</h2>
+                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/03-full.jpg" alt="">
+                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est
+                  blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia
+                  expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                <ul class="list-inline">
+                  <li>Date: January 2017</li>
+                  <li>Client: Finish</li>
+                  <li>Category: Identity</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">Project Name</h2>
+                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/04-full.jpg" alt="">
+                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est
+                  blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia
+                  expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                <ul class="list-inline">
+                  <li>Date: January 2017</li>
+                  <li>Client: Lines</li>
+                  <li>Category: Branding</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 5 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">Project Name</h2>
+                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/05-full.jpg" alt="">
+                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est
+                  blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia
+                  expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                <ul class="list-inline">
+                  <li>Date: January 2017</li>
+                  <li>Client: Southwest</li>
+                  <li>Category: Website Design</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 6 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">Project Name</h2>
+                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/06-full.jpg" alt="">
+                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est
+                  blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia
+                  expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                <ul class="list-inline">
+                  <li>Date: January 2017</li>
+                  <li>Client: Window</li>
+                  <li>Category: Photography</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Contact form JavaScript -->
+  <script src="js/jqBootstrapValidation.js"></script>
+  <script src="js/contact_me.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/agency.min.js"></script>
+
+</body>
+
+</html>
