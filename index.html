@@ -46,7 +46,7 @@
             <a class="nav-link js-scroll-trigger" href="#overview">Project Overview</a>
           </li>
           <li class="nav-item my-auto">
-            <a class="nav-link js-scroll-trigger" href="#data">Data</a>
+            <a class="nav-link js-scroll-trigger" href="#data">Overhead Imagery</a>
           </li>
           <li class="nav-item my-auto">
             <a class="nav-link js-scroll-trigger" href="#synthetic-data">Creating Synthetic Data</a>
@@ -159,7 +159,7 @@
             Bass Connections Team]</a>. In our project, we build upon this progress and try to improve the model's ability to detect rare objects.</p>
         </div>
         <div class="col-md-6">
-          <img src="img/overview/energy_information.png" class="img-fluid" alt=""
+          <img src="img/overview/energy_information.png" class="img-responsive center" alt=""
           style="width:100%">
         </div>
       </div>
@@ -248,7 +248,7 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-12 text-center">
-            <h2 class="section-heading text-uppercase">Data</h2>
+            <h2 class="section-heading text-uppercase">Overhead Imagery</h2>
             <!-- <h3 class="section-subheading text-muted">&#8226 Previous Progress. &nbsp &#8226 Model Iterative Process.
               &nbsp &#8226 Cross-Domain Performance. &nbsp &#8226 Geographies differences.</h3> -->
   
@@ -321,7 +321,7 @@
           <h4 class="service-heading">Preprocessing</h4>
                   <p class="text-muted" style="text-align: left;">The size of the raw overhead images was very large and slowed training speeds. 
                     To increase efficiency, we divided the 1114x1114 pixel images into four 608x608 pixel patches that could then be fed into the model. 
-                    Ground-truth labels were then adjusted to account for resizing.</p>
+                    Ground truth labels were then adjusted to account for resizing.</p>
                   
                     <!-- <i class="fas fa-stack-2x text-primary"></i> -->
                     <img src="img/data/preprocessing.png" class="img-responsive" alt="" style="width:90%">
@@ -496,7 +496,7 @@
             <div class="col-md-6">
               <h3>Results</h3>
               <p class="text-muted" style="text-align: justify;">Adding synthetic data to our training set significantly improved the precision of our
-                model. However, the recall does not change significantly. Our hypothesis for this is that the model was doing well on large wind turbines
+                model. However, the recall does not change significantly. Our hypothesis for this is that with the added synthetic data, model was doing well on large wind turbines
                 while missing many of the small wind turbines. This prompted us to create synthetic data that contained small wind turbines to try to 
                 fix this issue.
               </p>
@@ -504,6 +504,20 @@
             <div class="col-md-6">
               <img src="img/experimentation_and_results/results.png" class="img-responsive" alt="" style="width:100%">
             </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-4">
+              <img src="img/experimentation_and_results/large_turbines.png" class="img-responsive" alt="" style="width:100%">
+              <caption><i>Figure: The model performs well on large wind turbines</i></caption>
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-4">
+              <img src="img/experimentation_and_results/small_turbines.png" class="img-responsive" alt="" style="width:100%">
+              <caption><i>Figure: The model is inconsistent on small wind turbines</i></caption>
+            </div>
+            <div class="col-md-1"></div>
           </div>
           <br>
           <hr class="divider light my-4" />
