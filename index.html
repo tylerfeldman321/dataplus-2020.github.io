@@ -72,7 +72,7 @@
         <p class="text-white-75 font-weight-light mb-5" style="font-size: 30px">Tyler Feldman, Matt Robbins</p>
         <a class="btn btn-primary btn-xl js-scroll-trigger" href="https://github.com/dataplus-2020/">See Our
           Github Repository</a>
-        <a class="btn btn-primary btn-alt js-scroll-trigger" href="https://figshare.com/articles/dataset/Real_Images_and_Labels_for_Wind_Turbine_Satellite_Imagery/12731000"> Check Out Our Dataset </a>
+        <a class="btn btn-primary btn-alt js-scroll-trigger" href="https://figshare.com/projects/Object_Detection_Dataset_for_Overhead_Images_of_Wind_Turbines/86861"> Check Out Our Dataset </a>
       </div>
     </div>
   </header>
@@ -528,7 +528,8 @@
               how the dataset was split between the training and testing. One experiment that we explored was excluding a geographic region from the testing set.
               We wanted to choose a region that would be the most difficult for the model to perform on without having training data to learn from. We chose to 
               exclude California and Arizona from the testing set because the geography is both self-similar and fairly different
-              from the other regions and also because the small wind turbines in California would be very difficult for the model to test on.
+              from the other regions and also because the small wind turbines in California would be very difficult for the model to test on. In this case, our training set contains
+              no small wind turbines while the testing set does contain small turbines.
               </p>
             </div>
           </div>
@@ -541,7 +542,8 @@
           <div class="row">
             <div class="col-md-6 my-auto">
               <p class="text-muted" style="text-align: justify;">After testing the model with this setup, we then were able to add synthetic data to see if the performance
-              improves. We specifically created synthetic data that mimicked the real overhead imagery in California and Arizona. We then added these to the training dataset
+              improves. We specifically created synthetic data that mimicked the real overhead imagery in California and Arizona. In order to do this, we made a histogram of the sizes of the wind turbines located in CA and AZ
+              and tried to match that size distribution in our synthetic data. We then added these to the training dataset
               and observed how the performance changed.</p>
             </div>
             <div class="col-md-6 my-auto">
@@ -552,13 +554,37 @@
             </div>
           </div>
           <div class="row">
+            <div class="col-md-12 my-auto">
+              <figure>
+                <img src="img/experimentation_and_results/turbine_sizes_real_CA_AZ.png" class="img-fluid">
+                <figcaption><i>Figure: Distribution of wind turbine sizes in CA and AZ by pixel</i></figcaption>
+              </figure>
+            </div>
+          </div>
+          <br>
+          <div class="row">
             <div class="col-md-6 my-auto">
-
+              <img src="img/experimentation_and_results/results_excluding_CA_AZ.png" class="img-fluid">
             </div>
             <div class="col-md-6 my-auto">
               <h2>Results</h2>
-              <p class="text-muted" style="text-align: justify;">After adding the synthetic data to the training set, TO BE UPDATED WITH MORE RESULTS</p>
+              <p class="text-muted" style="text-align: justify;">After adding synthetic data, the precision decreases a significant amount while the recall slightly improves.
+              This indicates that we need to improve the quality of our synthetic data to better replicate the real world overhead images from California and Arizona. This could include
+              purchasing a more realistic model for our small wind turbines or increasing the variety of synthetic data by randomizing lighting conditions.</p>
             </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-4">
+              <img src="img/experimentation_and_results/large_turbines_CA.jpg" class="img-responsive" alt="" style="width:100%">
+              <caption><i>Figure: The model performs fairly well on large wind turbines</i></caption>
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-4">
+              <img src="img/experimentation_and_results/small_turbines_CA.jpg" class="img-responsive" alt="" style="width:100%">
+              <caption><i>Figure: The model performs badly on small wind turbines. This indicates to us that we need to improve the quality of the small wind turbines in our synthetic data</i></caption>
+            </div>
+            <div class="col-md-1"></div>
           </div>
         </div>
       </div>
@@ -579,7 +605,9 @@
             <div class="col-md-10 my-auto">
               <p style="text-align: justify;">The goal of this project was to create synthetic data that could be added to our training set to improve performance.
               This goal was met, but we think that with the fine-tuning of our synthetic data, we should be able to increase the performance more, especially in
-              terms of the recall. TO BE UPDATED WITH MORE RESULTS</p>
+              terms of the recall. For our additional experiment of testing on novel geographies and turbines, the results indicate that the synthetic data we made to mimic the real overhead imagery
+              in California and Arizona needs to be improved in terms of its quality, especially the model for the small wind turbine. Adding synthetic data consistently improved or did not worsen
+              the recall of the model, but did negatively impact the precision.</p>
             </div>
             <div class="col-md-1 my-auto"></div>
           </div>
@@ -603,7 +631,7 @@
                   We would like to include a wire structured wind turbine in the synthetic data to improve performance on those types of turbines
                 </li><br>
                 <li>Improve the <strong>quality of our synthetic images</strong>. This would involve purchasing high-quality models from online or designing models ourselves to emulate the 
-                  real wind turbines that we observe in the overhead imagery
+                  real wind turbines that we observe in the overhead imagery. This is especially important for the smaller turbines, since performace improved very slightly after adding our synthetic data that included small turbines.
                 </a></li><br>
                 <li><strong>Apply this model on a large scale</strong>. We would train the model and then apply it to Google Earth Engine imagery for the United States to locate wind turbines throughout the U.S.</li><br>
                 <li>Apply these techniques to <strong>detect other types of energy infrastructure</strong>. This will likely include coal plants and transmission lines</li>
