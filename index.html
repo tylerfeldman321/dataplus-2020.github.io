@@ -67,10 +67,10 @@
     <div class="container">
       <div class="intro-text">
         <div class="intro-lead-in">DataPlus 2020</div>
-        <div class="intro-heading text-uppercase">Deep Learning for Rare Energy Infrastructure in Satellite Imagery
+        <div class="intro-heading text-uppercase">Deep Learning for Rare Energy Infrastructures in Satellite Imagery
         </div>
         <p class="text-white-75 font-weight-light mb-5" style="font-size: 30px">Tyler Feldman, Matt Robbins</p>
-        <a class="btn btn-primary btn-xl js-scroll-trigger" href="https://github.com/dataplus2020/">See Our
+        <a class="btn btn-primary btn-xl js-scroll-trigger" href="https://github.com/dataplus-2020/">See Our
           Github Repository</a>
         <a class="btn btn-primary btn-alt js-scroll-trigger" href="https://figshare.com/articles/dataset/Real_Images_and_Labels_for_Wind_Turbine_Satellite_Imagery/12731000"> Check Out Our Dataset </a>
       </div>
@@ -95,9 +95,9 @@
           <h3>Motivation</h3>
           <p class="text-muted">Access to electricity is important for promoting economic development along with improving living conditions.
             Around <a href="https://energyeducation.ca/encyclopedia/Access_to_electricity">1.2 billion people worldwide do not have electricity in their homes</a>, 
-            many of them located in Africa and Asia. Fixing this issue has a large potential to improve the quality of life for these people.
-            The first step in this process is to understand the existing energy infrastructure, which helps analyze the distribution of energy resources as well as the consumption of energy. Doing this by hand
-            is incredibly expensive and time-consuming, which is why we are trying to locate energy infrastructure by applying deep learning techniques to satellite imagery.
+            many of them located in Africa and Asia. The first step in this process is to understand the location of existing energy infrastructure, which helps enable analysis of 
+            the distribution of energy resources as well as the consumption of energy. Doing this through surveys
+            is incredibly time-consuming, which is why we are trying to locate energy infrastructure automatically by applying deep learning techniques to overhead imagery.
 
           </p>
           <!--Access to electricity is one of the most important requisites to economic and
@@ -121,19 +121,21 @@
       <div class="row text-center">
         <div class="col-md-12">
           <h3 style="text-align: left;">Deep Learning and Object Detection</h3>
-          <p class="text-muted" style="text-align: justify;">Using deep learning, we can feed an image to a model, and the model will predict important information about the image. A common
+          <p class="text-muted" style="text-align: justify;">Using deep learning, we can feed an image to a model, and the model is able to make predictions about the contents or characteristics of that image. A common
             technique for image analysis is classification, in which the model predicts the class of the image out of a list of possible classes.
             In the image below, the model predicts that the image is of a cat, and is 90% confident with this classification. The model learns how to predict these classifications based
-            on examples that are shown to it. After it has been trained, it can make classifications for images that it has not seen before.<br>
+            on examples that are shown to it. After it has been trained, it can classify images that it has not seen before.<br>
             <br>
-            For this project, we are focusing on detection, which is a combination of classification with localization. The model analyzes images and predicts bounding boxes that
-            surround each object. It then also gives a classification for each object and a confidence score for the prediction. In the image below, the model predicted that there was
+            For this project, we are focusing on object detection, which is a combination of classification with localization. The model analyzes images and predicts bounding boxes that
+            surround each object. It then also classifies each object, producing a confidence score corresponding to the prediction. In the image below, the model predicted that there was
             an object in the box shown in red, and also predicted that the object within that box is a cat. The model learns how to predict these boxes and classifications based on examples shown to it.
-            These examples have labels called ground truths that contain the information of where the objects are in the image.
+            These examples have labels that we refer to as ground truth that contain the information of where the objects are in the image.
           </p>
         </div>
         <div class="col-md-12">
           <img src="img/overview/deep_learning.png" class="img-responsive" alt=""style="width:100%">
+          <caption><i>Images from: <a href="http://cs231n.stanford.edu/slides/2017/cs231n_2017_lecture11.pdf">
+            http://cs231n.stanford.edu/slides/2017/cs231n_2017_lecture11.pdf</a></i></caption>
         </div>
       </div>
 
@@ -142,17 +144,23 @@
       <div class="row text-center">
         <div class="col-md-6">
           <h3 class="service-heading">Background</h3>
-          <p class="text-muted" style="text-align: justify;"> For four years, the Duke Energy Data Analytics Lab has
-          worked on developing deep learning models that identify energy infrastructure, with an end goal of
-          generating maps of power grid networks that can aid policymakers in implementing effective
-          electrification strategies. Researchers have already been able to create an object identification model
-          that can identify different types of energy infrastructure, as shown here: <a
-            href="https://bassconnections.duke.edu/project-teams/energy-data-analytics-lab-energy-infrastructure-map-world-through-satellite-data-2018">[2018-19
-            Bass Connections Team]</a></p>
+          <p class="text-muted" style="text-align: justify;"> 
+            For five years, the Duke Energy Data Analytics Lab has worked on developing deep learning models that identify energy infrastructure, with an end goal of
+            generating maps of power grid networks that can aid policymakers in implementing effective
+            electrification strategies. In 2015-16, researchers created a model that can detect solar photovoltaic arrays with high accuracy <a
+                href="https://bassconnections.duke.edu/project-teams/energy-data-analytics-lab-2015-2016">[2015-16
+                Bass Connections Team]</a>.
+            In 2018-19, this model was improved to identify different types of transmission and distribution energy infrastructures,
+            including power lines and transmission towers <a
+                href="https://bassconnections.duke.edu/project-teams/energy-data-analytics-lab-energy-infrastructure-map-world-through-satellite-data-2018">[2018-19
+                Bass Connections Team]</a>. Last year's project focused on increasing the adaptability of detection models
+            across different geographies by creating realistic synthetic imagery <a
+                href="https://bass-connections-2019.github.io/">[2019-20
+            Bass Connections Team]</a>. In our project, we build upon this progress and try to improve the model's ability to detect rare objects.</p>
         </div>
         <div class="col-md-6">
-                  <div class="col-md-12 my-auto"><img src="img/overview/energy_information.png" class="img-responsive" alt=""
-                  style="width:80%"></div>
+          <img src="img/overview/energy_information.png" class="img-fluid" alt=""
+          style="width:100%">
         </div>
       </div>
 			  
@@ -164,12 +172,12 @@
           style="width:80%"></div>
         </div>
 			  <div class="col-md-6">
-          <h3 class="service-heading">Challenge</h3>
-          <p class="text-muted" style="text-align: justify;"> Object detection networks, like the one used to complete this task, are notorious for their "data hunger," requiring 
+          <h3 class="service-heading">Challenge: Rare Objects</h3>
+          <p class="text-muted" style="text-align: justify;"> Object detection networks, like the one used in this work, are notorious for their "data hunger," requiring 
             <strong>large amounts of annotated training data to perform well</strong>. 
-            For common infrastructures like powerlines and solar panels, there is ample real-world data available to train such models.
-          However, for rare objects like wind turbines, there is not enough available imagery to satisfy the "data hunger" of these
-				  models. Further, due to their low density, acquiring more data can be very expensive.</p>
+            For common infrastructure like buildings and roads, there is ample real-world data available to train such models.
+          However, for rare objects like wind turbines, there is not enough available imagery to satisfy the data requirements of these
+				  models. Further, due to their rarity and low spatial density in overhead imagery, acquiring more data can be very expensive.</p>
         </div>
       </div>
       <br>
@@ -188,12 +196,11 @@
         <div class="col-md-12">
           <h3>Solution: Synthetic Imagery</h3>
           <p class="text-muted" style="text-align: justify;">
-            Since training data is difficult to collect, in this project we explore creating synthetic data.
+            Since training data is difficult to collect, in this project we explore creating synthetic data to supplement the real data that are available.
             We do this using CityEngine, which can render and generate 3D landscapes and structures
             based on input from the designer. In our case, we are populating a landscape with wind turbine models.
-            Then we can position the camera in the overhead position and capture images. Since the engine has
-            the positioning of the wind turbine models, we can color in the models as black and infer the labels
-            from this black and white output.
+            Then we can position the camera in the overhead position and capture images with similar appearances to overhead imagery. 
+            Since we placed the wind turbines in the synthetic image, we can also generate ground truth labels for each of these images.
           </p>
         </div>
         <div class="col-md-12">
@@ -204,10 +211,11 @@
       <hr class="divider light my-4" />
 
       <div class="row">
-        <div class="col-md-6 my-auto">
-          <h3 class="service-heading">Research Steps</h3>
+        <div class="col-md-12 my-auto">
+          <h3 class="service-heading">Methods</h3>
           <p class="text-muted" style="text-align: justify;">
-
+            Here you can see our roadmap for the research project. In the following sections, we will discuss each
+            of these steps.
           </p>
         </div>
 
@@ -251,7 +259,8 @@
   
               <div class="col-md-12 my-auto">
   
-                <p class="text-muted" style="text-align: justify;">Our real-world satellite imagery comes from the NAIP Power Plant Satellite Imagery Dataset, a collection of 4,454 satellite images of power plants across the United States. Images of wind turbines predominantly come from California, the Midwest, and around northern Texas.
+                <p class="text-muted" style="text-align: justify;">Our real-world overhead imagery comes from the NAIP Power Plant Aerial Imagery Dataset, a collection of 4,454 overhead images of power plants across the United States. 
+                  Images of wind turbines predominantly come from California, the Midwest, and around northern Texas.
                 </p>
          </div>
         <div class="col-md-6 my-auto">
@@ -275,18 +284,20 @@
               <div class="col-md-8 my-auto">
                 <h3 class="service-heading">Diversity Between States</h3>
                 <img src="img/data/4_pics.PNG" class="img-responsive" alt="" style="width:100%">
-                <caption><i>Figure: Images are taken from NAIP Power Plant Satellite Imagery Dataset.</i></caption>
+                <caption><i>Figure: Images are taken from National Agricultural Imagery Program (NAIP) Power Plant Aerial Imagery Dataset.</i></caption>
               </div>
               <div class="col-md-4 my-auto">
-                <p class="text-muted" style="text-align: justify;"> From these images, we can notice significant
-            variability in features like land types and even wind turbine shapes between different states. For example, imagery
-            from California is almost exclusively in desert regions. California is also one of the only states to have small,
-            densely-clustered wind turbines. On the other end of the spectrum, states like Maine have mostly large wind
-            turbines in regions with lots of vegetation. Images from the same state tend to be relatively self-similar.
+                <p class="text-muted" style="text-align: justify;"> 
+                  From these images, we can notice significant variability in features like land types and even wind turbine 
+                  shapes between different states. For example, imagery from California is almost exclusively in 
+                  desert regions. California has a range of sizes of wind turbines including some that are small 
+                  and densely-clustered. On the other end of the spectrum, states like Maine have mostly large 
+                  wind turbines in regions with lots of vegetation. Images from the same state tend to be 
+                  relatively self-similar.
             <br><br>
             By including variation in features like geography, wind turbine size, and shadow size in the training dataset,
             the model can generalize more broadly. However, it can be very difficult for the model to learn these novel
-            features if they are absent from training.
+            features if they are absent from the training data.
           </p>
               </div>
             </div>
@@ -297,9 +308,10 @@
         <div class="row text-center">
         <div class="col-md-6">
           <h4 class="service-heading">Annotating</h4>
-            <p class="text-muted" style="text-align: left;">Ground truth labels were created using the image labeling GUI <strong>pyimannotate</strong>. Bounding boxes were hand-drawn around the wind turbines in each image, and the labels
-            were stored in .txt files to be accessed during training and testing.</p>
-                  
+            <p class="text-muted" style="text-align: left;">Ground truth labels were created using the image labeling GUI <a
+              href="https://github.com/astr93/pyimannotate">pyimannotate</a>. 
+              Bounding boxes were hand-drawn around the wind turbines in each image, and the labels
+              were stored in .txt files to be accessed during training and testing.</p>
             <!-- <i class="fas fa-stack-2x text-primary"></i> -->
                     <img src="img/data/labeling.png" class="img-responsive" alt="" style="width:90%">
                     <!-- <i class="fas fa-shopping-cart fa-stack-1x fa-inverse"></i> -->
@@ -307,7 +319,9 @@
                 </div>
         <div class="col-md-6">
           <h4 class="service-heading">Preprocessing</h4>
-                  <p class="text-muted" style="text-align: left;">The size of the raw satellite images was very large and slowed training speeds. To increase efficiency, we divided the 1114x1114 pixel images into four 608x608 pixel patches that could then be fed into the model. Ground-truth labels were then adjusted to account for resizing.</p>
+                  <p class="text-muted" style="text-align: left;">The size of the raw overhead images was very large and slowed training speeds. 
+                    To increase efficiency, we divided the 1114x1114 pixel images into four 608x608 pixel patches that could then be fed into the model. 
+                    Ground-truth labels were then adjusted to account for resizing.</p>
                   
                     <!-- <i class="fas fa-stack-2x text-primary"></i> -->
                     <img src="img/data/preprocessing.png" class="img-responsive" alt="" style="width:90%">
@@ -346,7 +360,7 @@
                 </p>
             </div>
             <div class="col-md-6 my-auto">
-              <img src="img/creating_synthetic_data/city_engine.jpg" class="img-responsive" alt="" style="width:100%">
+              <img src="img/creating_synthetic_data/city_engine_gui.jpg" class="img-responsive" alt="" style="width:100%">
               <caption><i>Figure: CityEngine User Interface with a generated city landscape</i></caption>
             </div>
           </div>
@@ -357,13 +371,13 @@
             <div class="col-md-12 my-auto">
               <h3 class="service-heading">Workflow</h3>
               <p class="text-muted" style="text-align: left;">To create the synthetic imagery, we first compiled
-              a list of images we want to use as the background on which to generate wind turbines. We also collected 3D wind turbine
+              a list of overhead images that did not contain wind turbines. These images were for the background on which to generate wind turbine models. We also collected 3D wind turbine
               models from online that we would like to use for the synthetic data. </p>
 
-              <p class="text-muted" style="text-align: left;">We then used a python script and CityEngine files to randomly select the images and generate the 3D wind turbine models on top of the images. 
+              <p class="text-muted" style="text-align: left;">We then used a python script and CityEngine files to randomly select the images and generate the 3D wind turbine models in random locations on top of the images. 
               The script then moves the camera to the four quadrants of the images, and in each location, it captures and saves a photo. This process is then repeated
               with the wind turbine models colored in as black and the background colored as white. These black and white images tell us where the models are placed 
-              and can be used to create ground truths.</p>
+              and can be used to create ground truth labels.</p>
             </div>
           </div>
 
@@ -385,11 +399,11 @@
           <div class="row">
             <div class="col-md-6 my-auto">
               <p class="text-muted" style="text-align: justify;">After this process, we have a set of synthetic images, and for each of these images, 
-                we have a corresponding image that locates the position of the wind turbine models.</p>
+                we have a corresponding file that locates the position of the wind turbine models within the image.</p>
             </div>
             <div class="col-md-6 my-auto">
               <img src="img/creating_synthetic_data/comparing_rgb_with_annos.png" class="img-responsive" alt="" style="width:100%">
-              <caption><i>Figure: Side-by-side of an RBG image with its corresponding annotation.</i></caption>
+              <caption><i>Figure: Side-by-side of an RGB image with its corresponding annotation.</i></caption>
             </div>
           </div>
 
@@ -431,11 +445,11 @@
             <div class="col-md-12 my-auto">
               <h2 style="text-align: left;">Basic Experimental Setup</h2>
               <p class="text-muted" style="text-align: justify;">
-                Once we have our synthetic data ready and our real imagery preprocessed, we are ready to run experiments. 
-                These experiments involve altering the training dataset to see how the performance of the model changes.
-                The basic experimental setup for this project is noting the change in performance between using a training dataset
-                of real satellite imagery and then using the same dataset but supplementing it with synthetic images. This will
-                produce two different models and their performances are measured on the same testing set. With this setup, we are only changing
+                Once we have our synthetic data created and our real imagery preprocessed, we are ready to run experiments. 
+                These experiments involve altering the composition of the training dataset to see how the performance of the model changes.
+                The basic experimental setup for this project is to train the model on a control condition with just real data, 
+                and then to use the same dataset but supplement it with synthetic images, and then measure the difference in performance. This will
+                produce two different models and their performance is measured on the same testing set. With this setup, we are only changing
                 one variable and so we can attribute any differences in performance to the added synthetic data.
 
               </p>
@@ -444,9 +458,8 @@
             <div class="col-md-1 my-auto"></div>
             <div class="col-md-10 my-auto">
               <img src="img/experimentation_and_results/experimental_setup.png" class="img-responsive" alt="" style="width:100%">
-              <caption><i>Figure: Our basic experimental setup. The real images were split randomly between the training
-                and testing datasets. We added additional photos that did not contain wind turbines to the testing dataset
-                to make the testing dataset more representative of random satellite imagery.
+              <caption><i>Figure: Our basic experimental setup. The real images were split randomly between the training and testing datasets. 
+                The real images are a mix of those with wind turbines present and those without.
               </i></caption>
             </div>
             <div class="col-md-1 my-auto"></div>
@@ -457,8 +470,8 @@
               <br>
               <img src="img/experimentation_and_results/metrics.png" class="img-responsive" alt="" style="width:100%">
               <br>
-              <caption><i>Figure: The model predicted that 4 locations were wind turbines,
-                and 2 of those predictions were correct, meaning the precision would be 2/4. There are 3 wind turbines in the image
+              <caption><i>Figure: The model predicted that 4 objects were wind turbines,
+                and 2 of those predictions were correct, meaning the precision would be 2/4 for this example. There are 3 wind turbines in the image
                 and the model found 2 of these, meaning the recall would be 2/3.</i></caption>
             </div>
             <div class = "col-md-6">
@@ -468,13 +481,13 @@
               precision and recall. We'll explain how these metrics can be interpreted in terms of the images on the left.</p>
               <ul>
                 <li class="text-muted" style="text-align: justify;"><b>Precision: </b> Out of the objects that the model classified as a wind turbine,
-                what fraction of these were wind turbines.</li>
-                <li class="text-muted" style="text-align: justify;"><b>Recall: </b> Out of the number of wind turbines, what fraction of these 
+                what fraction of these were actually wind turbines.</li>
+                <li class="text-muted" style="text-align: justify;"><b>Recall: </b> Of the wind turbines present in the data, what fraction of these 
                 did the model find.</li>
               </ul>
-              <p class="text-muted" style="text-align: justify;">Since the goal of this model is to detect objects in very large sets of satellite imagery, 
+              <p class="text-muted" style="text-align: justify;">Since the goal of this model is to detect objects in very large sets of overhead imagery, 
                 manually removing objects misclassified as wind turbines is much easier than identifying undetected wind turbines across the entire dataset. 
-                This is why we prioritize recall over precision as a metric of good performance.
+                For this reason, we prioritize recall over precision as a metric of good performance.
               </p>
             </div>   
           </div>
@@ -497,10 +510,10 @@
           <h2 style="text-align: left;">Additional Experiments</h2>
           <div class="row">
             <div class="col-md-12 text-center">
-              <p class="text-muted" style="text-align: justify;">In addition to this basic test, we also conducted additional experiments by changing
-              how the dataset was split between the training and testing. One experiment that we explored was excluding a region from the testing set.
-              We wanted to choose a region that would be the most difficult for the model to perform on, which we can infer by how different that region is from
-              the rest of the dataset. We chose to exclude California and Arizona from the testing set because the geography is both self-similar and fairly different
+              <p class="text-muted" style="text-align: justify;">In addition to this first experiment, we also conducted additional experiments by changing
+              how the dataset was split between the training and testing. One experiment that we explored was excluding a geographic region from the testing set.
+              We wanted to choose a region that would be the most difficult for the model to perform on without having training data to learn from. We chose to 
+              exclude California and Arizona from the testing set because the geography is both self-similar and fairly different
               from the other regions and also because the small wind turbines in California would be very difficult for the model to test on.
               </p>
             </div>
@@ -514,7 +527,7 @@
           <div class="row">
             <div class="col-md-6 my-auto">
               <p class="text-muted" style="text-align: justify;">After testing the model with this setup, we then were able to add synthetic data to see if the performance
-              improves. We specifically created synthetic data that mimicked the real satellite imagery in California and Arizona. We then added these to the training dataset
+              improves. We specifically created synthetic data that mimicked the real overhead imagery in California and Arizona. We then added these to the training dataset
               and observed how the performance changed.</p>
             </div>
             <div class="col-md-6 my-auto">
@@ -576,7 +589,7 @@
                   We would like to include a wire structured wind turbine in the synthetic data to improve performance on those types of turbines
                 </li><br>
                 <li>Improve the <strong>quality of our synthetic images</strong>. This would involve purchasing high-quality models from online or designing models ourselves to emulate the 
-                  real wind turbines that we observe in the satellite imagery
+                  real wind turbines that we observe in the overhead imagery
                 </a></li><br>
                 <li><strong>Apply this model on a large scale</strong>. We would train the model and then apply it to Google Earth Engine imagery for the United States to locate wind turbines throughout the U.S.</li><br>
                 <li>Apply these techniques to <strong>detect other types of energy infrastructure</strong>. This will likely include coal plants and transmission lines</li>
@@ -625,14 +638,7 @@
           <h4 class = "service-heading"><u>Project Manager:</u></h4>
             <p class="text-muted">Bohao Huang</p>
         </div>
-        <div class="col-md-4">
-          <h4 class = "service-heading"><u>Team Contributors:</u></h4>
-            <p class="text-muted align-items-center">Leslie Collins</p>
-            <p class="text-muted">Robert Fetter</p>
-            <p class="text-muted">Marc Jeuland</p>
-            <p class="text-muted">Luana Marangon Lima</p>
-            <p class="text-muted">Robyn Meeks</p>
-        </div>
+      </div>
       <!-- <div class="row">
         <div class="col-lg-8 mx-auto text-center">
           <p class="large text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
